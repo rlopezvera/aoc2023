@@ -1,0 +1,8 @@
+# ignore pycache, .pyc, .pyo files
+global-exclude __pycache__
+global-exclude *.py[co]
+
+# ignore .DS_Store files
+global-exclude .DS_Store
+.venv
+
