@@ -17,36 +17,31 @@ def main() -> None:
     _, seeds = input[0].split(":")
     seeds = [int(x) for x in seeds.strip().split(" ")]
     # ic(seeds)
-    mappings = input[2:]
+    mappings = input[3:]
 
     id = 0
     tracer = seeds
-    mapping = {}
+    xd = []
     for i, line in enumerate(mappings):
-        if line == "":
-            # ic(mapping)
-            ic(tracer)
+        if line == "" or i == len(mappings)-1:
             for i, value in enumerate(tracer):
-                # ic(value)
-                if value in mapping.keys():
-                    tracer[i] = mapping[value]
-                else:
-                    tracer[i] = value
-            mapping = {}
-
+                for d, s, l in xd:
+                    if s <= value < s+l:
+                        tracer[i] = d + (value-s)
+                        break
             continue
         elif ":" in line:
+            # break
+            xd = []
             id += 1
             continue
         else:
             destination, source, length = [
                 int(x) for x in line.strip().split(" ")]
-            destination_range = range(destination, destination+length)
-            source_range = range(source, source+length)
-            for d, s in zip(destination_range, source_range):
-                mapping[s] = d
-    ic(tracer)
-    ic(min(tracer))
+            xd.append((destination, source, length))
+
+    p1 = min(tracer)
+    ic(p1)
 
     pass
 
