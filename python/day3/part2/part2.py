@@ -31,6 +31,7 @@ def main() -> int:
     p1 = 0
     nums = defaultdict(list)
     for r in range(ROW_LEN):
+        gears = set()  # position of the gear in the row
         n = 0
         ic(n)
         has_part = False
@@ -46,16 +47,24 @@ def main() -> int:
                             ch = input[r+rr][c+cc]
                             if not ch.isdigit() and ch != ".":
                                 has_part = True
+                            if ch == "*":
+                                gears.add((r+rr, c+cc))
             elif n > 0:
+                for gear in gears:
+                    nums[gear].append(n)
                 if has_part:
                     p1 += n
 
+                # reset
                 n = 0
                 has_part = False
+                gears = set()
+    p2 = 0
+    for k, v in nums.items():
+        if len(v) == 2:
+            p2 += v[0] * v[1]
 
-                # numbers_with_indices = get_numbers_with_indices(input)
-
-    return p1
+    return p2
 
 
 if __name__ == "__main__":
