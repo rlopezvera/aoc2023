@@ -29,15 +29,15 @@ def main():
             p1 += 2**(val-1)
         for j in range(val):
             counter[i+j+1] += counter[i]
+
         # 0
         # [0, 1, 2, 3]
         # [1 += 0]
-
+    p2 = sum(counter.values())
     ic(p1)
     ic(p2)
-
-    return
+    pass
 
 
 if __name__ == "__main__":
-    res = main()
+    main()
