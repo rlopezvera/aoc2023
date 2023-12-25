@@ -1,8 +1,9 @@
 from icecream import ic
 import argparse
 
+import math
 
-def main() -> None:
+def main(part1: bool) -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--file_name", help="File name to read")
     file_name = parser.parse_args().file_name
@@ -16,21 +17,44 @@ def main() -> None:
                tuple(pair.split(" = ")[1].replace(")", "").replace("(", "").split(", ")) for pair in pairs}
     # ic(mapping)
 
-    found = False
-    res = 0
     direction = rl_map[instructions[0]]
-    key = "AAA"
-    while not found:
-        new_key = mapping[key][direction]
-        res += 1
-        # ic(new_key)
-        if new_key == "ZZZ":
-            found = True
-            ic(res)
-        else:
-            key = new_key
-            direction = rl_map[instructions[res % len(instructions)]]
+    p2_keys = [x for x in mapping.keys() if x.endswith("A")]
+    ic(p2_keys)
+    if part1:
+        found = False
+        p1 = 0
+        key = "AAA"
+        while not found:
+            new_key = mapping[key][direction]
+            p1 += 1
+            # ic(new_key)
+            if new_key == "ZZZ":
+                found = True
+                ic(p1)
+            else:
+                key = new_key
+                direction = rl_map[instructions[p1 % len(instructions)]]
+    else:
+        p2_lst = []
+        for i, key in enumerate(p2_keys):
+            direction = rl_map[instructions[0]]
+            found = False
+            p2 = 0
+            # ic(i, key)
+            while not found:
+                p2 += 1
+                new_key = mapping[key][direction]
+                # ic(new_key)
+                if new_key.endswith("Z"):
+                    p2_lst.append(p2)
+                    found = True
+                    # ic(p2)
+                else:
+                    key = new_key
+                    direction = rl_map[instructions[p2 % len(instructions)]]
+        ic(p2_lst)
+        ic(math.lcm(*p2_lst))
 
 
 if __name__ == "__main__":
-    main()
+    main(part1=False)
